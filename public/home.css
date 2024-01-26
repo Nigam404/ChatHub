@@ -1,0 +1,91 @@
+h2{
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-family:monospace;
+}
+body{
+ 
+    background: linear-gradient(to right, #ff3399 0%, #9900ff 100%);
+   
+}
+#container{
+    display: flex;
+    flex-direction: row;
+}
+#div-group{
+    width: max-content;
+    /* background-color: #E3B448; */
+    color: rgb(255, 255, 255);
+    font-family:monospace;    
+    
+}
+#members{
+    width: max-content;
+    /* background-color: #E3B448; */
+    color: rgb(255, 255, 255);
+    font-family:monospace; 
+    margin-left: auto;   
+
+}
+ul{
+    list-style-type: none;
+
+}
+#groups li button{
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    background-color:#E3B448;
+    
+}
+#creategroup{
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    background-color: aquamarine;
+}
+#messages{
+    margin-left: 2%;
+    margin-right: 4%;
+    /* background-color: brown; */
+    display:inline;
+    
+}
+p:nth-child(even){
+    background-color: rgb(255, 121, 248);
+    font-size:  20px;
+    border-radius: 8px;
+    
+    
+}
+p:nth-child(odd){
+    background-color:rgb(38, 147, 230);
+    font-size: 20px;
+    border-radius: 8px;
+
+}
+#msg{
+    margin-left: 120px;
+    margin-right: 0px;
+    background-color:cornsilk;
+}
+#group-header{
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-family:monospace;
+    font-size: 30px;
+
+}
+#sendmsg{
+    margin-right: 120px;
+    background-color: #E3B448;
+    color: aliceblue;
+}
+#footer{
+    
+    bottom:0;
+    position: relative;
+    color: white;
+    
+
+}
