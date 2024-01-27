@@ -3,6 +3,8 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const path = require("path");
+const http = require("http");
+const { Server } = require("socket.io");
 
 const sequelize = require("./utils/database");
 const userRouter = require("./router/userR");
@@ -14,7 +16,18 @@ const Message = require("./model/messageM");
 const Group = require("./model/groupM");
 const Usergroup = require("./model/usergroupM");
 
+//creating server
 const app = express();
+const httpServer = http.createServer(app);
+const io = new Server(httpServer); //io is for handling sockets
+
+//...
+//defining sockets
+io.on("connection", (socket) => {
+  socket.on("user-message", (message) => {
+    io.emit("message", message);
+  });
+});
 
 //middlewares
 app.use(
@@ -50,6 +63,6 @@ Group.belongsToMany(User, { through: Usergroup });
 sequelize
   .sync()
   .then(() => {
-    app.listen(process.env.PORT);
+    httpServer.listen(process.env.PORT);
   })
   .catch((err) => console.log(err));

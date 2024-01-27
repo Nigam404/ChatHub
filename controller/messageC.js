@@ -16,8 +16,9 @@ exports.saveMsg = async (req, res, next) => {
 
   //adding message to group table using sequelize associations.(group & message)
   await group.addMessage(msg);
-  // console.log(await user.getMessages());
-  res.status(201).json(msg);
+
+  const msgwithgroupid = await Message.findByPk(msg.id);
+  res.status(201).json(msgwithgroupid);
   //..continue from here...
 };
 

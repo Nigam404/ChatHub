@@ -1,4 +1,5 @@
 const Token = localStorage.getItem("ChatToken");
+const socket = io(); //initialize socket
 
 //CREATE ELEMENT FUNCTION(MESSAGE)..........................................................
 function createMsgElement(obj) {
@@ -20,7 +21,7 @@ async function createGroup(group) {
 
   //group name button click method.
   btn.onclick = async () => {
-    // alert("Welcome to group : " + group.name);
+    alert("Welcome to group : " + group.name);
 
     //putting group header
     const groupHeader = document.getElementById("group-header");
@@ -152,8 +153,22 @@ async function createGroup(group) {
           headers: { Authorization: Token },
         }
       );
-      createMsgElement(msg.data);
+      //emitting socket with message while send button clicked(client to server)
+      socket.emit("user-message", msg.data);
+
+      // createMsgElement(msg.data);
     };
+
+    //receiving socket emitted from server
+    socket.on("message", (message) => {
+      console.log(message);
+      console.log(message.groupId == group.id);
+      if (message.groupId != group.id) {
+        //do nothing
+      } else {
+        createMsgElement(message);
+      }
+    });
 
     //fetching all messages in the group
     const messages = await axios.get(
