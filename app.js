@@ -5,6 +5,7 @@ const dotenv = require("dotenv").config();
 const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
+const cron = require("node-cron");
 
 const sequelize = require("./utils/database");
 const userRouter = require("./router/userR");
@@ -15,13 +16,13 @@ const User = require("./model/userM");
 const Message = require("./model/messageM");
 const Group = require("./model/groupM");
 const Usergroup = require("./model/usergroupM");
+const Archivedchat = require("./model/archivedM");
 
 //creating server
 const app = express();
 const httpServer = http.createServer(app);
 const io = new Server(httpServer); //io is for handling sockets
 
-//...
 //defining sockets
 io.on("connection", (socket) => {
   socket.on("user-message", (message) => {
@@ -37,6 +38,34 @@ app.use(
 );
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
+
+//cron scheduler run at 12am everyday.
+cron.schedule("0 0 * * * *", async () => {
+  console.log("scheduler called");
+  //getting all messages
+  const obj = await Message.findAll();
+
+  obj.forEach(async (message) => {
+    const messageDate = new Date(message.createdAt).getDate();
+    const todayDate = new Date().getDate();
+
+    //moving 1 day older message to Archived chat table and deleting from main table.
+    if (todayDate - messageDate >= 0) {
+      await Archivedchat.create({
+        id: message.id,
+        message: message.message,
+        username: message.username,
+        islink: message.islink,
+        userId: message.userId,
+        createdAt: message.createdAt,
+        updatedAt: message.updatedAt,
+        groupId: message.groupId,
+      });
+
+      await message.destroy(); //deleting from main table after moving to archived table.
+    }
+  });
+});
 
 //routes
 app.use(userRouter);

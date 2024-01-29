@@ -77,7 +77,7 @@ p:nth-child(odd){
 
 }
 #sendmsg{
-    margin-right: 120px;
+    /* margin-right: 120px; */
     background-color: #E3B448;
     color: aliceblue;
 }
@@ -88,4 +88,9 @@ p:nth-child(odd){
     color: white;
     
 
+}
+#sendfile{
+    margin-right: 120px;
+    background-color: #E3B448;
+    color: aliceblue;
 }
