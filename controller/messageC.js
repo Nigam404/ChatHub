@@ -40,7 +40,8 @@ exports.getMsg = async (req, res, next) => {
 //Upload to s3bucket method................................................................
 function uploadToS3(file) {
   //initializing s3 bucket
-  const s3bucket = new Aws.S3({}); //IAM user key and secret keys goes here.
+  const s3bucket = new Aws.S3({}); //IAM user key and secret keys goes here..
+  
 
   //parameter for uploading to aws s3
   const params = {
