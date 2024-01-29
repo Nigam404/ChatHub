@@ -1,3 +1,4 @@
+const formData = new FormData(); //for sending file to backend
 const Token = localStorage.getItem("ChatToken");
 const socket = io(); //initialize socket
 
@@ -6,6 +7,17 @@ function createMsgElement(obj) {
   let parent = document.getElementById("content");
   let child = document.createElement("p");
   child.innerText = obj.username + " : " + obj.message;
+  parent.appendChild(child);
+}
+//CREATE ELEMENT FUNCTION(File Link)..........................................................
+function createLinkElement(obj) {
+  let parent = document.getElementById("content");
+  let child = document.createElement("p");
+  let link = document.createElement("a");
+  link.href = obj.message;
+  link.innerText = "Click here";
+  child.innerText = obj.username + " : Download File";
+  child.appendChild(link);
   parent.appendChild(child);
 }
 
@@ -170,6 +182,23 @@ async function createGroup(group) {
       }
     });
 
+    //send file button
+    document.getElementById("sendfile").onclick = async (e) => {
+      e.preventDefault();
+
+      const formelem = document.getElementById("formsendfile");
+
+      //sending file through network call
+      const linkobj = await axios.post(
+        `http://localhost:3000/message/sendfile/${group.id}`,
+        new FormData(formelem),
+        { headers: { Authorization: Token } }
+      );
+      console.log(linkobj.data);
+      //creating msg link element
+      createLinkElement(linkobj.data);
+    };
+
     //fetching all messages in the group
     const messages = await axios.get(
       `http://localhost:3000/message/getmsg/${group.id}`
@@ -178,9 +207,12 @@ async function createGroup(group) {
     document.getElementById("content").innerText = "";
     //creating UI element for message
     messages.data.forEach((element) => {
-      createMsgElement(element);
+      if (element.islink == false) {
+        createMsgElement(element);
+      } else if (element.islink == true) {
+        createLinkElement(element);
+      }
     });
-    // setInterval(async () => {}, 20000);
   };
 }
 

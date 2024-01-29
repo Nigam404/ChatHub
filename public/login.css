@@ -26,3 +26,8 @@
     color: rgb(0, 0, 0);
     background-color: #afccef;
   }
+  #sendfile{
+    margin-right: 120px;
+    background-color: #E3B448;
+    color: aliceblue;
+}

@@ -10,6 +10,7 @@ const Message = sequelize.define("message", {
   },
   message: Sequelize.STRING,
   username: Sequelize.STRING,
+  islink: Sequelize.BOOLEAN,
 });
 
 module.exports = Message;

@@ -34,17 +34,28 @@
       </div>
     </div>
 
-    <footer>
-      <div class="input-group mb-3" id="footer" style="visibility: hidden">
-        <input
-          type="text"
-          class="form-control"
-          id="msg"
-          placeholder="type your message...."
-        />
-        <button type="button" class="btn" id="sendmsg">Send</button>
-      </div>
-    </footer>
+    <div class="input-group mb-3" id="footer" style="visibility: hidden">
+      <input
+        type="text"
+        class="form-control"
+        id="msg"
+        placeholder="type your message...."
+      />
+      <button type="button" class="btn" id="sendmsg">Send</button>
+      <!-- ... -->
+      <form
+        method="post"
+        target="_blank"
+        enctype="multipart/form-data"
+        id="formsendfile"
+      >
+        <input type="file" name="file" id="file" />
+        <button type="submit" class="btn" id="sendfile">sendfile</button>
+      </form>
+
+      <!-- ... -->
+    </div>
+
     <!-- bootstrap cdn -->
     <link
       rel="stylesheet"
